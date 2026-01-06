@@ -1,0 +1,220 @@
+/* SECTION */
+.simulasi-section {
+    padding: 60px 0;
+    background-color: #ffffff;
+}
+
+/* JUDUL */
+.simulasi-title {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 800;
+    color: #0b3c5d;
+    margin-bottom: 28px;
+}
+
+/* CARD FORM */
+.simulasi-card {
+    max-width: 720px;
+    margin: 0 auto;
+    background-color: #d9ecff;
+    padding: 28px;
+    border-radius: 14px;
+}
+
+/* INPUT */
+.simulasi-card input[type="text"],
+.simulasi-card input[type="email"] {
+    width: 100%;
+    background-color: #a9d1ff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    font-size: 14px;
+    color: #0b3c5d;
+}
+
+.simulasi-card input::placeholder {
+    color: #0b3c5d;
+}
+
+/* CHECKBOX */
+.simulasi-checkbox {
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
+    color: #0b3c5d;
+    margin-top: 6px;
+    align-items: flex-start;
+}
+
+.simulasi-checkbox input {
+    margin-top: 3px;
+}
+
+/* ACTION */
+.simulasi-action {
+    text-align: right;
+    margin-top: 18px;
+}
+
+/* BUTTON */
+.simulasi-btn {
+    background-color: #0b3c5d;
+    color: #ffffff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.simulasi-btn:hover {
+    background-color: #072b44;
+}
+
+
+.simulasi-hero h1 {
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.simulasi-hero p {
+    font-size: 14px;
+    opacity: 0.9;
+    color: #e99d12;
+}
+
+/* SECTION */
+.simulasi-section {
+    padding: 40px 0;
+    background: #ffffff;
+}
+
+/* BOX */
+.simulasi-box {
+    background: #d9ecff;
+    border-radius: 16px;
+    padding: 30px;
+    display: flex;
+    gap: 30px;
+}
+
+/* LEFT */
+.simulasi-left {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.simulasi-left input,
+.simulasi-left select {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: none;
+    background: #9fc9ff;
+    font-size: 14px;
+}
+
+.simulasi-row {
+    display: flex;
+    gap: 14px;
+}
+
+.simulasi-note {
+    font-size: 12px;
+    color: #0b3c5d;
+}
+
+/* RIGHT */
+.simulasi-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.simulasi-right textarea {
+    height: 120px;
+    border-radius: 12px;
+    border: none;
+    padding: 16px;
+    background: #9fc9ff;
+    resize: none;
+}
+
+.simulasi-btn {
+    align-self: flex-end;
+    margin-top: 16px;
+    padding: 10px 18px;
+    background: #083c6d;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 14px;
+    text-decoration: none;
+}
+/* ===============================
+   HEADER SIMULASI
+================================ */
+.simulasi-header {
+    position: relative;
+    z-index: 1;
+    padding: 24px 0; /* kecilkan */
+    color: #fff;
+}
+/* Judul besar */
+.simulasi-heading {
+    font-size: 46px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+/* Breadcrumb */
+.simulasi-breadcrumb {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Produk & Layanan (kuning) */
+.breadcrumb-main {
+    color: #f4b000;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Tanda strip */
+.breadcrumb-separator {
+    color: #ffffff;
+    font-size: 20px;
+    margin: 0 4px;
+}
+
+/* Simulasi Deposito (putih) */
+.breadcrumb-sub {
+    color: #ffffff;
+    font-size: 20px;
+}
+
+/* ===============================
+   BACKGROUND AGAK REDUP
+================================ */
+.simulasi-banner {
+    position: relative;
+    height: 160px;
+    margin-top: var(--header-height);
+    background: url("../images/simulasi-bg.png") center/cover no-repeat;
+    display: flex;
+    align-items: center;
+}
+
+.simulasi-banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+}
+
