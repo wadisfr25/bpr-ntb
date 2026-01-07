@@ -25,26 +25,38 @@
 
             <!-- KIRI -->
             <div class="simulasi-left">
-                <input type="number" placeholder="Nominal Deposito">
 
+            <!-- Nominal -->
+            <input type="text"
+                id="nominal"
+                min="5000000"
+                placeholder="Nominal Deposito (Min. Rp 5.000.000)">
+
+            <small id="nominal-error" class="text-danger d-none">
+                Minimal nominal deposito adalah Rp 5.000.000
+            </small>
+
+                <!-- Tenor & Bunga -->
                 <div class="simulasi-row">
-                    <select>
-                        <option>Tenor</option>
-                        <option>1 Bulan</option>
-                        <option>3 Bulan</option>
-                        <option>6 Bulan</option>
-                        <option>12 Bulan</option>
+                    <select id="tenor">
+                        <option value="">Tenor</option>
+                        <option value="1">1 Bulan</option>
+                        <option value="3">3 Bulan</option>
+                        <option value="6">6 Bulan</option>
+                        <option value="12">12 Bulan</option>
                     </select>
 
-                    <select>
-                        <option>Suku Bunga</option>
-                        <option>5%</option>
-                        <option>5.5%</option>
-                        <option>6%</option>
-                    </select>
+                <input type="text"
+                    id="bunga"
+                    placeholder="Suku Bunga"
+                    readonly>
                 </div>
 
-                <input type="text" placeholder="Estimasi Bunga Deposito" readonly>
+                <!-- Estimasi Bunga -->
+                <input type="text"
+                       id="estimasi_bunga"
+                       placeholder="Estimasi Bunga Deposito"
+                       readonly>
 
                 <small class="simulasi-note">
                     *Simulasi ini bersifat estimasi dan tidak menyimpan data pribadi.
@@ -53,7 +65,9 @@
 
             <!-- KANAN -->
             <div class="simulasi-right">
-                <textarea placeholder="Estimasi Total Dana Diterima" readonly></textarea>
+                <textarea id="total_dana"
+                          placeholder="Estimasi Total Dana Diterima"
+                          readonly></textarea>
 
                 <a href="{{ route('simulasi.permintaan', 'deposito') }}"
                    class="simulasi-btn">
@@ -67,3 +81,7 @@
 </section>
 
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/simulasi-deposito.js') }}"></script>
+@endpush
