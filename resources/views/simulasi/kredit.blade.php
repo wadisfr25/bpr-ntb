@@ -37,7 +37,9 @@
                 <div class="simulasi-row">
                     <select id="tenor">
                         <option value="">Tenor (Bulan)</option>
+                        <option value="6">6</option>
                         <option value="12">12</option>
+                        <option value="18">18</option>
                         <option value="24">24</option>
                         <option value="36">36</option>
                         <option value="48">48</option>
@@ -74,7 +76,15 @@
                 <textarea id="angsuran"
                           placeholder="Estimasi Angsuran / Bulan"
                           readonly></textarea>
-
+                <!-- CATATAN ANUITAS (BUKAN POPUP) -->
+                <div id="anuitas-info" class="simulasi-warning d-none">
+                    <strong>Catatan:</strong><br>
+                    Hasil simulasi angsuran dengan sistem bunga <b>anuitas</b> bersifat estimasi.
+                    Perbedaan angka dapat terjadi karena perhitungan bunga harian dan metode
+                    pembulatan sistem perbankan.
+                    <br><br>
+                    Untuk informasi resmi dan detail, silakan hubungi petugas kami.
+                </div>
                 <a href="{{ route('simulasi.permintaan', 'kredit') }}"
                    class="simulasi-btn">
                     Hubungi Saya

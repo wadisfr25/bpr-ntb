@@ -58,7 +58,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const jenis  = jenisSelect.value;
         const sistem = sistemSelect.value;
         const P      = angka(pinjamanInput.value);
-
         const options = tenorSelect.querySelectorAll('option');
 
         // reset semua
@@ -67,10 +66,56 @@ document.addEventListener('DOMContentLoaded', function () {
             opt.disabled = false;
         });
 
+        // helper
+        function allowTenor(list) {
+            options.forEach(opt => {
+                const t = parseInt(opt.value);
+                if (!t) return;
+
+                if (!list.includes(t)) {
+                    opt.hidden = true;
+                    opt.disabled = true;
+                }
+            });
+        }
+
         // ==========================
         // KREDIT KONSUMTIF - FLAT
         // ==========================
         if (jenis === 'konsumtif' && sistem === 'flat') {
+
+            if (P >= 5000000 && P <= 25000000) {
+                allowTenor([12, 24, 36, 48, 60]);
+            }
+            else if (P >= 30000000 && P <= 100000000) {
+                allowTenor([12, 24, 36, 48, 60, 96, 120]);
+            }
+            else if (P >= 125000000) {
+                allowTenor([12, 24, 36, 48, 60, 96, 120, 144]);
+            }
+
+            return;
+        }
+
+        // ==========================
+        // KREDIT KONSUMTIF - ANUITAS
+        // ==========================
+        if (jenis === 'konsumtif' && sistem === 'anuitas') {
+
+            if (P >= 5000000 && P <= 25000000) {
+                allowTenor([12, 24, 36, 48, 60]);
+            }
+            else if (P >= 30000000 && P <= 100000000) {
+                allowTenor([12, 24, 36, 48, 60, 72, 84, 96, 108, 120]);
+            }
+            else if (P >= 125000000) {
+                allowTenor([12, 24, 36, 48, 60, 72, 84, 96, 108, 120, 132, 144]);
+            }
+        }
+        // ==========================
+        // MODAL KERJA - DENGAN AGUNAN (ANUITAS)
+        // ==========================
+        if (jenis === 'agunan' && sistem === 'anuitas') {
 
             function allowTenor(list) {
                 options.forEach(opt => {
@@ -83,66 +128,112 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
 
-            if (P >= 5000000 && P <= 25000000) {
-                allowTenor([12, 24, 36, 48, 60]);
+            if (P >= 300000000) {
+                allowTenor([6, 12, 18, 24, 36, 48, 60, 72]);
             }
-            else if (P >= 30000000 && P <= 100000000) {
-                allowTenor([12, 24, 36, 48, 60, 96, 120]);
+            else if (P >= 60000000) {
+                allowTenor([6, 12, 18, 24, 36, 48, 60]);
             }
-            else if (P >= 125000000) {
-                allowTenor([12, 24, 36, 48, 60, 96, 120, 144]);
+            else if (P >= 5000000) {
+                allowTenor([6, 12, 18, 24, 36]);
             }
+
             return;
         }
 
         // ==========================
-        // KREDIT KONSUMTIF - ANUITAS
+        // MODAL KERJA - DENGAN AGUNAN (FLAT)
         // ==========================
-        if (jenis === 'konsumtif' && sistem === 'anuitas') {
+        if (jenis === 'agunan' && sistem === 'flat') {
 
-            options.forEach(opt => {
-                const t = parseInt(opt.value);
-                if (!t) return;
+            function allowTenor(list) {
+                options.forEach(opt => {
+                    const t = parseInt(opt.value);
+                    if (!t) return;
+                    if (!list.includes(t)) {
+                        opt.hidden = true;
+                        opt.disabled = true;
+                    }
+                });
+            }
 
-                // ❌ Default: sembunyikan tenor panjang
-                if (t === 132 || t === 144) {
-                    opt.hidden = true;
-                    opt.disabled = true;
-                }
+            if (P >= 5000000 && P <= 50000000) {
+                allowTenor([6, 12, 18, 24, 36]);
+            }
+            else if (P >= 60000000 && P <= 250000000) {
+                allowTenor([6, 12, 18, 24, 36, 48, 60]);
+            }
+            else if (P >= 300000000) {
+                allowTenor([6, 12, 18, 24, 36, 48, 60, 72]);
+            }
 
-                // ✅ KECUALI: nominal ≥ 125 jt
-                if (P >= 125000000 && (t === 132 || t === 144)) {
-                    opt.hidden = false;
-                    opt.disabled = false;
-                }
-            });
+            return;
         }
+        // ==========================
+        // MODAL KERJA - TANPA AGUNAN
+        // ==========================
+        if (jenis === 'tanpa_agunan') {
+            allowTenor([6, 12, 18, 24]);
+            return;
+        }
+
     }
 
-    function rateAnuitas(pinjaman, tenor) {
+    function rateAnuitas(pinjaman, tenor, jenis) {
 
-        if (pinjaman >= 125000000) {
-            if (tenor === 132) return 130.3;
-            if (tenor === 144) return 144.7;
+        // =========================
+        // MODAL KERJA - AGUNAN
+        // =========================
+        if (jenis === 'agunan') {
+
+            if (pinjaman >= 300000000) {
+                if (tenor === 72) return 64.2;
+            }
+
+            if (pinjaman >= 60000000) {
+                if (tenor === 48) return 41;
+                if (tenor === 60) return 52.4;
+            }
+
+            if (pinjaman >= 5000000) {
+                if (tenor === 6)  return 5.3;
+                if (tenor === 12) return 10;
+                if (tenor === 18) return 14.9;
+                if (tenor === 24) return 19.8;
+                if (tenor === 36) return 30.1;
+            }
+
+            return null;
         }
 
-        if (pinjaman >= 30000000) {
-            if (tenor === 72) return 64.2;
-            if (tenor === 84) return 76.5;
-            if (tenor === 96) return 89.3;
-            if (tenor === 108) return 102.6;
-            if (tenor === 120) return 116.2;
+        // =========================
+        // KREDIT KONSUMTIF 
+        // =========================
+        if (jenis === 'konsumtif') {
+
+            if (pinjaman >= 125000000) {
+                if (tenor === 132) return 130.3;
+                if (tenor === 144) return 144.7;
+            }
+
+            if (pinjaman >= 30000000) {
+                if (tenor === 72) return 64.2;
+                if (tenor === 84) return 76.5;
+                if (tenor === 96) return 89.3;
+                if (tenor === 108) return 102.6;
+                if (tenor === 120) return 116.2;
+            }
+
+            if (pinjaman >= 5000000) {
+                if (tenor === 12) return 10;
+                if (tenor === 24) return 19.8;
+                if (tenor === 36) return 30.1;
+                if (tenor === 48) return 41;
+                if (tenor === 60) return 52.4;
+            }
         }
 
-        if (pinjaman >= 5000000) {
-            if (tenor === 12) return 10;
-            if (tenor === 24) return 19.8;
-            if (tenor === 36) return 30.1;
-            if (tenor === 48) return 41;
-            if (tenor === 60) return 52.4;
-        }
-
-        return null; // tidak valid
+        return null;
     }
 
     // ===== HITUNG ANGSURAN =====
@@ -162,14 +253,20 @@ document.addEventListener('DOMContentLoaded', function () {
         let angsuran = 0;
 
         // ===============================
-        // TANPA AGUNAN → FLAT 15%
+        // MODAL KERJA - TANPA AGUNAN
         // ===============================
         if (jenis === 'tanpa_agunan') {
-            const bungaTahunan = 15;
-            const i = bungaTahunan / 100 / 12;
 
-            bungaInfo.textContent = 'Suku Bunga: 15% / tahun';
-            angsuran = (P / n) + (P * i);
+            const bungaTahunan = 16;
+            const bungaBulanan = bungaTahunan / 100 / 12; // 1.333%
+
+            bungaInfo.textContent = 'Suku Bunga: 1,33% / bulan (16% / tahun)';
+
+            const pokokPerBulan = P / n;
+            const bungaPerBulan = P * bungaBulanan;
+
+            // ikuti pola simulasi sebelumnya (bukan rumus anuitas murni)
+            angsuran = Math.round(pokokPerBulan + bungaPerBulan);
         }
 
         // ===============================
@@ -188,20 +285,41 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 let bungaTahunan = 0;
 
-                if (P >= 5000000 && P <= 25000000) bungaTahunan = 15;
-                else if (P >= 30000000 && P <= 100000000) bungaTahunan = 13;
-                else if (P >= 125000000) bungaTahunan = 12;
+                // =========================
+                // AGUNAN
+                // =========================
+                if (jenis === 'agunan') {
+
+                    if (P >= 5000000 && P <= 50000000) bungaTahunan = 15;
+                    else if (P >= 60000000 && P <= 250000000) bungaTahunan = 13;
+                    else if (P >= 300000000) bungaTahunan = 12;
+
+                }
+                // =========================
+                // KONSUMTIF (SUDAH ADA)
+                // =========================
+                else if (jenis === 'konsumtif') {
+
+                    if (P >= 5000000 && P <= 25000000) bungaTahunan = 15;
+                    else if (P >= 30000000 && P <= 100000000) bungaTahunan = 13;
+                    else if (P >= 125000000) bungaTahunan = 12;
+                }
 
                 const i = bungaTahunan / 100 / 12;
+                const bungaBulananPersen = bungaTahunan / 12;
 
-                bungaInfo.textContent = `Suku Bunga: ${bungaTahunan}% / tahun`;
+                bungaInfo.textContent =
+                    `Suku Bunga: ${bungaBulananPersen.toFixed(3)}% / bulan`;
+
                 angsuran = (P / n) + (P * i);
             }
+
+            
 
             // ===== ANUITAS (VERSI BROSUR) =====
             if (sistem === 'anuitas') {
 
-                const totalPersen = rateAnuitas(P, n);
+                const totalPersen = rateAnuitas(P, n, jenis);
 
 
                 if (!totalPersen) {
@@ -213,8 +331,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 const totalBunga = P * (totalPersen / 100);
                 const bungaPerBulan = totalBunga / n;
                 const pokokPerBulan = P / n;
+                const bungaPerBulanPersen = totalPersen / n;
 
-                bungaInfo.textContent = `Suku Bunga: ${totalPersen}% (total)`;
+                bungaInfo.textContent =
+                    `Suku Bunga: ${bungaPerBulanPersen.toFixed(3)}% / bulan`;
                 angsuran = pokokPerBulan + bungaPerBulan;
             }
         }
@@ -224,16 +344,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // ===== EVENT =====
-    pinjamanInput.addEventListener('input', function () {
-        const val = angka(this.value);
-        this.value = val ? rupiah(val) : '';
-        validasiLangsung();
-        filterTenor();
-        hitungAngsuran();
-    });
+pinjamanInput.addEventListener('input', function (e) {
+    const input = e.target;
+
+    // simpan posisi cursor
+    const start = input.selectionStart;
+    const oldLength = input.value.length;
+
+    // ambil angka murni
+    const raw = angka(input.value);
+
+    // format rupiah
+    input.value = raw ? rupiah(raw) : '';
+
+    // hitung selisih panjang
+    const newLength = input.value.length;
+    const diff = newLength - oldLength;
+
+    // kembalikan cursor
+    const newPos = start + diff;
+    input.setSelectionRange(newPos, newPos);
+
+    validasiLangsung();
+    filterTenor();
+    hitungAngsuran();
+});
 
     jenisSelect.addEventListener('change', function () {
-
+        anuitasInfo.classList.add('d-none');
         if (this.value === 'tanpa_agunan') {
             sistemSelect.value = 'flat';
             sistemWrapper.classList.add('d-none');
@@ -246,10 +384,16 @@ document.addEventListener('DOMContentLoaded', function () {
         validasiLangsung();
         hitungAngsuran();
     });
+    const anuitasInfo = document.getElementById('anuitas-info');
 
     sistemSelect.addEventListener('change', function () {
         filterTenor();      // hanya berdampak ke FLAT
         hitungAngsuran();   // ANUITAS AMAN
+            if (this.value === 'anuitas') {
+        anuitasInfo.classList.remove('d-none');
+        } else {
+            anuitasInfo.classList.add('d-none');
+        }
     });
 
     tenorSelect.addEventListener('change', function () {
